@@ -1,16 +1,58 @@
-class Solution:
-    def rotate(self, matrix: list[list[int]]) -> None:
-        left = 0
-        right = len(matrix) - 1
+import math
 
-        while left < right:
-            matrix[left], matrix[right] = matrix[right], matrix[left]
-            left += 1
-            right -= 1
-        changed = set()
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                if (i, j) not in changed:
-                    matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-                    changed.add((i, j))
-                    changed.add((j, i))
+
+def main():
+    n, x, k = map(int, input().split())
+    s = input()
+    num_zeros = 0
+    second_round = []
+
+    j = 0 
+    i = 0
+    while j < len(s):
+        if s[j] == "L":
+            x -= 1
+        else:
+            x += 1
+           
+        i+=1
+        if x == 0:
+            num_zeros += 1
+            break
+        if i == k:
+            print(num_zeros)
+            return   
+        j+=1              
+    if j == len(s):
+        print(num_zeros)
+        return 
+    j = 0
+    while j < len(s):
+        if s[j] == "L":
+            x -= 1
+            second_round.append(x)
+        else:
+            x += 1
+            second_round.append(x)
+        i += 1
+       
+        if x == 0:
+            num_zeros += 1
+            break
+        if i == k:
+            print(num_zeros)
+            return 
+        
+        j += 1
+        
+    if j == len(s):
+        print(num_zeros)
+        return 
+
+    num_zeros += (k-i) // len(second_round)
+    print(num_zeros)
+    return
+t = int(input())
+
+for i in range(t):
+    main()
