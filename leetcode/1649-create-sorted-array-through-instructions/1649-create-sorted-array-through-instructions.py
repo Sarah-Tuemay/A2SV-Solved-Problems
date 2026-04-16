@@ -21,7 +21,7 @@ class Solution:
             res = []
             for num, i in right:
                 idx = bisect_left(left,(num, float('-inf')))
-                idx2 = bisect_right(left, (num, float('inf')))
+                idx2 = bisect_left(left, (num, float('inf')))
                 less[i]+=idx
                 great[i]+=len(left)-idx2
             i=j=0
