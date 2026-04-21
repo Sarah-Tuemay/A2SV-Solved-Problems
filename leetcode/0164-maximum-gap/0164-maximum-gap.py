@@ -1,41 +1,37 @@
 class Solution:
     def maximumGap(self, nums: List[int]) -> int:
         N = len(nums)
-        if N < 2:
+\
+        bucket_val = [{"min": None, "max": None} for _ in range(N)]
+
+        min_ = min(nums)
+        range_ = max(nums) - min_
+        if range_ == 0:
             return 0
-            
-        min_val = min(nums)
-        max_val = max(nums)
-
-        if min_val == max_val:
-            return 0
-
-        bucket_size = max(1, (max_val - min_val) // (N - 1))
-        bucket_count = (max_val - min_val) // bucket_size + 1
-        
-        buckets = [{"min": None, "max": None} for _ in range(bucket_count)]
-
         for num in nums:
-            idx = (num - min_val) // bucket_size
+            idx = int(N*(num-min_)//range_)
 
-            if num == max_val:
-                idx = bucket_count - 1
-                
-            if buckets[idx]["min"] is None:
-                buckets[idx]["min"] = num
-                buckets[idx]["max"] = num
+            if idx == N:
+                idx-=1
+
+            if bucket_val[idx]["min"] == None:
+                bucket_val[idx]["min"] = num
+                bucket_val[idx]["max"] = num
             else:
-                buckets[idx]["min"] = min(num, buckets[idx]["min"])
-                buckets[idx]["max"] = max(num, buckets[idx]["max"])
-
-        max_gap = 0
-        prev_max = min_val
+                bucket_val[idx]["min"] = min(bucket_val[idx]["min"], num)
+                bucket_val[idx]["max"] = max(bucket_val[idx]["max"], num)
         
-        for bucket in buckets:
-            if bucket["min"] is None:
+        prev_max = min_
+        diff = 0
+
+        for bucket in bucket_val:
+
+            if bucket['min'] == None:
                 continue
-                
-            max_gap = max(bucket["min"] - prev_max, max_gap)
-            prev_max = bucket["max"]
-            
-        return max_gap
+            diff = max(bucket['min']-prev_max, diff)
+            prev_max = bucket['max']
+        
+        return diff
+
+        # print(bucket_val)
+
