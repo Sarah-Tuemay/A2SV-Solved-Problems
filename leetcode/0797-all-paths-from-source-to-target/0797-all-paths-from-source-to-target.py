@@ -9,11 +9,11 @@ class Solution:
             if node == N:
                 result.append(path[:])
                 return
-                
+
             for negh in graph[node]:
                 dfs(negh, path)
                 path.pop()
         
-            return result
+        dfs(0, [])
 
-        return dfs(0, [])
+        return result
